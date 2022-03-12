@@ -1,8 +1,9 @@
 name: 'e2e Tests'
 
 on:
-  schedule:
-    - cron: '0 8 * * *' # everyday at 8am UTC
+  push:
+  # schedule:
+  #   - cron: '0 8 * * *' # everyday at 8am UTC
 
 jobs:
   e2e:
