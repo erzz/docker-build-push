@@ -31,6 +31,11 @@ jobs:
             image: hello-world
             registry: 026181534292.dkr.ecr.us-west-2.amazonaws.com
 
+          - name: ECR via IAM
+            id: ecr-iam
+            image: hello-world
+            registry: 026181534292.dkr.ecr.us-west-2.amazonaws.com
+
           - name: GHCR Legacy
             image: docker-build-push/e2e-image
             registry: docker.pkg.github.com
@@ -47,6 +52,13 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+
+      - name: Configure AWS
+        if: ${{ matrix.id == ecr-iam }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::123456789100:role/my-github-actions-role
+          aws-region: us-east-2
 
       - name: Build and push Docker image
         id: docker
